@@ -16,27 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/articles")
 public class ArticleController {
     @Autowired
     ArticleServiceMybatisPlus articleServiceMybatisPlus;
 
 
     @PostMapping
-    public Object selectArticle(int page,int pageSize,String name){
-        ReturnObject returnObject = new ReturnObject();
-        log.info("开始查询---------------------------------");
-        //分页构造器
-        Page<Article> pageInfo = new Page<>(page,pageSize);
-        //条件构造器
-        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        //添加排序条件，根据sort进行排序
-        //queryWrapper.orderByAsc(Article::getSort);
-
-        Object e = articleServiceMybatisPlus.page(pageInfo,queryWrapper);
-        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-        returnObject.setMessage("查询成功");
-        returnObject.setData(e);
-        return returnObject;
+    public Object selectArticle(PageParams pageParams,boolean isAuthor, boolean isTags){
+        return articleServiceMybatisPlus.listArticlesPage(pageParams,isAuthor,isTags);
     }
 }

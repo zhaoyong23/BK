@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ArticleServiceMybatisPlus extends IService<Article> {
 
-
+    Object listArticlesPage(PageParams pageParams,boolean isAuthor, boolean isTags);
 }

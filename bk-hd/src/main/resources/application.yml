@@ -3,7 +3,7 @@ server:
   port: 8888
 spring:
   application:
-    name: bk-hd
+    name: bk
   datasource:
     url: jdbc:mysql://localhost:3306/bk?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
     username: root
