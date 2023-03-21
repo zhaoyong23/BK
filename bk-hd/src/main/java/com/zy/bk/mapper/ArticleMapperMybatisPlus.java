@@ -13,10 +13,5 @@ import java.util.List;
 @Mapper
 public interface ArticleMapperMybatisPlus extends BaseMapper<Article> {
 
-    IPage<Article> listArticle(Page<Article> page,
-                               LambdaQueryWrapper<Article> lambdaQueryWrapper,
-                               Long categoryId,
-                               Long tagId,
-                               String year,
-                               String month);
+
 }

@@ -190,4 +190,20 @@
       category_id = #{categoryId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+
+  <select id="listartchives" parameterType="list" resultMap="BaseResultMap">
+--     select year(create_date) as year,month(create_date) as month,count(*) as count
+--     from article
+--     group by year,month
+select create_date as year,create_date as month,count(*) as count from article group by year,month
+  </select>
+
+
+
+
+
+
+
 </mapper>

@@ -3,6 +3,8 @@ package com.zy.bk.mapper;
 import com.zy.bk.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface SysUserMapper {
     /**
@@ -52,4 +54,25 @@ public interface SysUserMapper {
      * @mbggenerated Fri Mar 03 10:26:59 CST 2023
      */
     int updateByPrimaryKey(SysUser record);
+
+
+
+
+    SysUser selectLogin(Map<String,String> map);
+
+
+    /**
+     * 查询用户信息
+     * @return
+     */
+    SysUser selectgetUser(String id);
+
+
+    /**
+     * 用户注册
+     * @param sysUser
+     * @return
+     */
+    int insertUser(SysUser sysUser);
+
 }

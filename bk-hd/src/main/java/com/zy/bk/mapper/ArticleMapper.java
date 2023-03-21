@@ -1,7 +1,10 @@
 package com.zy.bk.mapper;
 
 import com.zy.bk.entity.Article;
+import com.zy.bk.entity.page.Archives;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
@@ -52,4 +55,8 @@ public interface ArticleMapper {
      * @mbggenerated Fri Mar 03 10:24:15 CST 2023
      */
     int updateByPrimaryKey(Article record);
+
+
+
+    List<Archives> listartchives();
 }

@@ -10,6 +10,7 @@ import com.zy.bk.common.domain.ReturnObject;
 import com.zy.bk.common.utils.DateUtils;
 import com.zy.bk.entity.Article;
 import com.zy.bk.entity.SysUser;
+import com.zy.bk.entity.page.Archives;
 import com.zy.bk.entity.page.ArticleVo;
 import com.zy.bk.entity.page.PageParams;
 import com.zy.bk.entity.page.TagVo;
@@ -20,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ public class ArticleServiceMybatisPlusImpl extends ServiceImpl<ArticleMapperMyba
     TagServiceImplMybatisPlus tagServiceImplMybatisPlus;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
 
     public ReturnObject listArticlesPage(PageParams pageParams, boolean isAuthor, boolean isTags) {
@@ -71,6 +74,57 @@ public class ArticleServiceMybatisPlusImpl extends ServiceImpl<ArticleMapperMyba
         return returnObject;
     }
 
+
+    @Override
+    public Object selectHottestArticleService(int page,int pageSize) {
+        Page<Article> pageinfo = new Page<>(page,pageSize);
+        LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.orderByDesc(Article::getViewCounts);
+
+        Page<Article> articlePage =  articleMapperMybatisPlus.selectPage(pageinfo,lambdaQueryWrapper);
+
+        List<ArticleVo> articleVoList = new ArrayList<>();
+        List<Article> list = articlePage.getRecords();
+
+        for(Article articlelist : list){
+            ArticleVo articleVo = new ArticleVo();
+            BeanUtils.copyProperties(articlelist,articleVo);
+            articleVoList.add(articleVo);
+        }
+
+        ReturnObject returnObject = new ReturnObject();
+        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+        returnObject.setMessage("查询成功");
+        returnObject.setData(articleVoList);
+        returnObject.setSuccess(true);
+        return returnObject;
+    }
+
+
+    @Override
+    public Object selectLatestArticles(int page, int pageSize) {
+        Page<Article> pageinfo = new Page<>(page,pageSize);
+        LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.orderByDesc(Article::getCreateDate);
+
+        Page<Article> articlePage =  articleMapperMybatisPlus.selectPage(pageinfo,lambdaQueryWrapper);
+
+        List<ArticleVo> articleVoList = new ArrayList<>();
+        List<Article> list = articlePage.getRecords();
+
+        for(Article articlelist : list){
+            ArticleVo articleVo = new ArticleVo();
+            BeanUtils.copyProperties(articlelist,articleVo);
+            articleVoList.add(articleVo);
+        }
+
+        ReturnObject returnObject = new ReturnObject();
+        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+        returnObject.setMessage("查询成功");
+        returnObject.setData(articleVoList);
+        returnObject.setSuccess(true);
+        return returnObject;
+    }
 
 
 }

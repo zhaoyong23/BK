@@ -24,7 +24,7 @@ public class SysUserServiceImplMybatisPlusImp extends ServiceImpl<SysUserMapperM
     @Autowired
     private SysUserMapperMybatisPlus sysUserMapperMybatisPlus;
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate redisTemplate;
 
 
     @Override

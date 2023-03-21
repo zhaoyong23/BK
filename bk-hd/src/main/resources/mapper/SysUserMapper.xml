@@ -225,4 +225,32 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+from sys_user
+where account = #{account} and password = #{password}
+  </select>
+
+
+  <select id="selectgetUser" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sys_user
+where id = #{id}
+  </select>
+
+
+  <insert id="insertUser" parameterType="com.zy.bk.entity.SysUser">
+    insert into sys_user
+    (id, account, admin,
+     avatar, create_date, deleted,
+     email, last_login, mobile_phone_number,
+     nickname, password, salt,
+     status)
+     value (#{id},#{account},#{admin},#{avatar},#{createDate},#{deleted},#{email},#{lastLogin},#{mobilePhoneNumber}
+        ,#{nickname},#{password},#{salt},#{status})
+  </insert>
+
+
 </mapper>
